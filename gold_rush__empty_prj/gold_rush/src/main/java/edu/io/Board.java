@@ -24,6 +24,11 @@ public class Board {
         return grid[col][row];
     }
     public void display(){
-
+        for(int i = 0; i < size;i++){
+            for(int j = 0; j < size;j++){
+                System.out.print(grid[i][j].label);
+            }
+            System.out.print("\n");
+        }
     }
 }
