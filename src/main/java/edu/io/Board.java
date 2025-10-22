@@ -22,9 +22,9 @@ public class Board {
     
     public void clean(){
         Token freeSpace = new EmptyToken();
-        for(int i = 0; i < size;i++){
-            for(int j = 0; j < size;j++){
-                grid[i][j] = freeSpace;
+        for(int col = 0; col < size;col++){
+            for(int row = 0; row < size;row++){
+                grid[col][row] = freeSpace;
             }
         }
     }
@@ -33,18 +33,13 @@ public class Board {
     }
 
     public void display(){
-        //iteruj po kolumnach
-        for(int i = 0; i < size;i++){
-            //iteruj po wierszach
-            //w ten sposób układ jest spójny z funkcjami - zawsze col,row w takiej kolejności
-            for(int j = 0; j < size;j++){
-                System.out.print(grid[j][i].label());
+        for(int col = 0; col < size;col++){
+            for(int row = 0; row < size;row++){
+                System.out.print(grid[row][col].label());
             }
             System.out.print("\n");
         }
     }
 
-    public record Coords(int col, int row){
-
-    }
+    public record Coords(int col, int row){}
 }
