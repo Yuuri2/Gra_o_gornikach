@@ -23,43 +23,35 @@ public class PlayerToken extends Token{
     }
     public void move(Move dir){
         if(dir == null) return;
-        switch(dir){
-            case LEFT -> {
-                if(col > 0){
-                    this.board.placeToken(col, row, new EmptyToken());
-                    this.col -= 1;
-                }
-                else throw new IllegalArgumentException("Cannot go out of bounds");
+        this.board.placeToken(col, row, new EmptyToken());
+        if(isMoveLegal(dir)){
+            switch (dir) {
+                case UP -> {this.row--;}
+                case DOWN -> {this.row++;}
+                case LEFT -> {this.col--;}
+                case RIGHT -> {this.col++;}
+                case NONE ->{}
             }
-            case RIGHT -> {
-                if(col < board.size() - 1){
-                    this.board.placeToken(col, row, new EmptyToken());
-                    this.col += 1;
-                }
-                else throw new IllegalArgumentException("Cannot go out of bounds");
-            }
-            case UP -> {
-                if(row > 0){
-                    this.board.placeToken(col, row, new EmptyToken());
-                    this.row -= 1;
-                }
-                else throw new IllegalArgumentException("Cannot go out of bounds");
-            }
-            case DOWN -> {
-                if(row < board.size() - 1){
-                    this.board.placeToken(col, row, new EmptyToken());
-                    this.row += 1;
-                }
-                else throw new IllegalArgumentException("Cannot go out of bounds");
-            }
-            case NONE -> System.out.println("Nothing ever happens");
-
-            default -> {
-                throw new IllegalArgumentException("UNKNOWN DIRECTION PASSED!");
-            }
+        }
+        else{
+            throw new IllegalArgumentException();
         }
         this.board.placeToken(col, row, this);
     }
+
+    private boolean isMoveLegal(Move Direction){
+        switch(Direction){
+            case UP -> {if(row > 0) return true;}
+            case DOWN -> {if(row < board.size() - 1) return true;}
+            case LEFT -> {if(col > 0) return true;}
+            case RIGHT -> {if(col < board.size() - 1) return true;}
+            case NONE -> {return true;}
+            default -> {return false;}
+        }
+        
+        return false;
+    }
+
     public Board.Coords pos(){
         return new Board.Coords(this.col, this.row);
     }

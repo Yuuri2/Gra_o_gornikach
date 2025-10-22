@@ -32,14 +32,13 @@ public class Board {
         grid[col][row] = token;
     }
 
-    public Token square(int col, int row){
-        return grid[col][row];
-    }
-
     public void display(){
+        //iteruj po kolumnach
         for(int i = 0; i < size;i++){
+            //iteruj po wierszach
+            //w ten sposób układ jest spójny z funkcjami - zawsze col,row w takiej kolejności
             for(int j = 0; j < size;j++){
-                System.out.print(grid[i][j].label());
+                System.out.print(grid[j][i].label());
             }
             System.out.print("\n");
         }
