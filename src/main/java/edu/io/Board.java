@@ -19,6 +19,16 @@ public class Board {
     public Token peekToken(int col, int row){
         return grid[col][row];
     }
+
+    public Coords getAvailableSquare(){
+        for(int col = 0; col < size;col++){
+            for(int row = 0; row < size;row++){
+                if(grid[row][col] instanceof EmptyToken) return new Coords(row,col);
+            }
+        }
+        throw new IllegalStateException();
+    }
+
     
     public void clean(){
         Token freeSpace = new EmptyToken();

@@ -1,10 +1,12 @@
 package edu.io.token;
 
 import edu.io.Board;
+import edu.io.Player;
 
 public class PlayerToken extends Token{
     private int col, row;
     private final Board board;
+    public Player player;
 
     public enum Move{
         NONE,
@@ -14,12 +16,12 @@ public class PlayerToken extends Token{
         DOWN
     }
 
-    public PlayerToken(Board board){
+    public PlayerToken(Player player, Board board){
         super(Label.PLAYER_TOKEN_LABEL);
         this.board = board;
-        this.row = 0;
-        this.col = 0;
-        board.placeToken(col, row, this);
+        this.player = player;
+        Board.Coords freeSpace= board.getAvailableSquare();
+        board.placeToken(freeSpace.col(), freeSpace.row(), this);
     }
     public void move(Move dir){
         if(dir == null) return;
@@ -32,6 +34,7 @@ public class PlayerToken extends Token{
                 case RIGHT -> {this.col++;}
                 case NONE ->{}
             }
+            player.interactWithToken(board.peekToken(col, row));
         }
         else{
             throw new IllegalArgumentException();
@@ -39,8 +42,8 @@ public class PlayerToken extends Token{
         this.board.placeToken(col, row, this);
     }
 
-    private boolean isMoveLegal(Move Direction){
-        switch(Direction){
+    private boolean isMoveLegal(Move direction){
+        switch(direction){
             case UP -> {if(row > 0) return true;}
             case DOWN -> {if(row < board.size() - 1) return true;}
             case LEFT -> {if(col > 0) return true;}
