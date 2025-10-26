@@ -21,11 +21,13 @@ public class PlayerToken extends Token{
         this.board = board;
         this.player = player;
         Board.Coords freeSpace= board.getAvailableSquare();
-        board.placeToken(freeSpace.col(), freeSpace.row(), this);
+        col = freeSpace.col();
+        row = freeSpace.row();
+        board.placeToken(col, row, this);
     }
     public void move(Move dir){
         if(dir == null) return;
-        this.board.placeToken(col, row, new EmptyToken());
+        board.placeToken(col, row, new EmptyToken());
         if(isMoveLegal(dir)){
             switch (dir) {
                 case UP -> {this.row--;}
@@ -39,7 +41,7 @@ public class PlayerToken extends Token{
         else{
             throw new IllegalArgumentException();
         }
-        this.board.placeToken(col, row, this);
+        board.placeToken(col, row, this);
     }
 
     private boolean isMoveLegal(Move direction){
@@ -51,11 +53,10 @@ public class PlayerToken extends Token{
             case NONE -> {return true;}
             default -> {return false;}
         }
-        
         return false;
     }
 
     public Board.Coords pos(){
-        return new Board.Coords(this.col, this.row);
+        return new Board.Coords(col, row);
     }
 }

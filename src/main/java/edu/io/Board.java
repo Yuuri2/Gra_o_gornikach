@@ -16,17 +16,59 @@ public class Board {
         return this.size;
     }
 
+    public Coords setPlacementStrategy(int placementStrategy){
+        switch (placementStrategy) {
+            case 1 ->{
+                int randomCol, randomRow, tries = 0;
+                do {
+                    randomCol = (int)(Math.random() * 8);
+                    randomRow = (int)(Math.random() * 8);
+                    tries++;
+                    //Przetestowane przy całej planszy złota throwuje error
+                    //jeśli do tego czasu nie znajdzie miejsca jest dobra szansa że plansza jest pełna więc przechodzi do metody szukającej pierwszego wolnego
+                    if(tries > size*size){
+                        return setPlacementStrategy(2);
+                    }
+                } while (!(grid[randomCol][randomRow] instanceof EmptyToken));
+                return new Coords(randomCol,randomRow);
+            }
+            case 2 ->{
+                for(int col = 0; col < size;col++){
+                    for(int row = 0; row < size;row++){
+                        if(grid[col][row] instanceof EmptyToken) return new Coords(col,row);
+                    }
+                }
+                throw new IllegalStateException();
+            }
+            default ->{
+                throw new AssertionError();
+            }
+                
+        }
+        
+    }
+
     public Token peekToken(int col, int row){
         return grid[col][row];
     }
 
     public Coords getAvailableSquare(){
-        for(int col = 0; col < size;col++){
-            for(int row = 0; row < size;row++){
-                if(grid[row][col] instanceof EmptyToken) return new Coords(row,col);
-            }
-        }
-        throw new IllegalStateException();
+        // W programie normalnie użyłbym tego ale testy nie przejdą w takiej konfiguracji więc zostawiam jako komentarz
+        
+        // System.out.println("Select Spawn Strategy(1-2):");
+        // System.out.println("1 - Random Spawn");
+        // System.out.println("2 - First Free Space");
+        // System.out.println("Your Choice: ");
+        // try {
+        //     Scanner klawiatura = new Scanner(System.in);
+        //     int placementStrategy = klawiatura.nextInt();
+        //     klawiatura.close();
+        //     if(placementStrategy > 2 || placementStrategy < 1) throw new IllegalArgumentException("No SpawnStrategy of this index");
+        //     return setPlacementStrategy(placementStrategy);
+        // } catch (Exception e) {
+        //     throw new IllegalArgumentException();
+        // }
+        return setPlacementStrategy(2);
     }
 
     
