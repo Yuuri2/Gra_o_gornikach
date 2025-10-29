@@ -1,6 +1,6 @@
 package edu.io;
 
-import edu.io.strategy.RandomSpawnStrategy;
+import edu.io.strategy.PlacementStrategy;
 import edu.io.token.EmptyToken;
 import edu.io.token.Token;
 
@@ -16,7 +16,7 @@ public class Board {
     public int size(){
         return this.size;
     }
-
+    //bazaowo pierwsze wolne
     public Coords setPlacementStrategy(){
         for(int col = 0; col < size;col++){
             for(int row = 0; row < size;row++){
@@ -25,9 +25,9 @@ public class Board {
         }
         throw new IllegalStateException();
     }
-    
-    public Coords setPlacementStrategy(RandomSpawnStrategy strategy){
-        return strategy.randomSpawnStrategy(this);
+    //przeciążone z argumentem - losowe wolne
+    public Coords setPlacementStrategy(PlacementStrategy strategy){
+        return strategy.getStrategy(this);
     }
 
     public Token peekToken(int col, int row){

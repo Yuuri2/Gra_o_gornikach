@@ -3,9 +3,9 @@ package edu.io.strategy;
 import edu.io.Board;
 import edu.io.token.EmptyToken;
 
-public class RandomSpawnStrategy extends Strategy{
-
-    public Board.Coords randomSpawnStrategy(Board board){
+public class RandomSpawnStrategy implements PlacementStrategy{
+    @Override
+    public Board.Coords getStrategy(Board board){
         int randomCol, randomRow, tries = 0;
         do {
             randomCol = (int)(Math.random() * board.size());
