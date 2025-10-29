@@ -1,5 +1,6 @@
 package edu.io;
 
+import edu.io.strategy.RandomSpawnStrategy;
 import edu.io.token.EmptyToken;
 import edu.io.token.Token;
 
@@ -16,36 +17,17 @@ public class Board {
         return this.size;
     }
 
-    public Coords setPlacementStrategy(int placementStrategy){
-        switch (placementStrategy) {
-            case 1 ->{
-                int randomCol, randomRow, tries = 0;
-                do {
-                    randomCol = (int)(Math.random() * 8);
-                    randomRow = (int)(Math.random() * 8);
-                    tries++;
-                    //Przetestowane przy całej planszy złota throwuje error
-                    //jeśli do tego czasu nie znajdzie miejsca jest dobra szansa że plansza jest pełna więc przechodzi do metody szukającej pierwszego wolnego
-                    if(tries > size*size){
-                        return setPlacementStrategy(2);
-                    }
-                } while (!(grid[randomCol][randomRow] instanceof EmptyToken));
-                return new Coords(randomCol,randomRow);
+    public Coords setPlacementStrategy(){
+        for(int col = 0; col < size;col++){
+            for(int row = 0; row < size;row++){
+                if(grid[col][row] instanceof EmptyToken) return new Coords(col,row);
             }
-            case 2 ->{
-                for(int col = 0; col < size;col++){
-                    for(int row = 0; row < size;row++){
-                        if(grid[col][row] instanceof EmptyToken) return new Coords(col,row);
-                    }
-                }
-                throw new IllegalStateException();
-            }
-            default ->{
-                throw new AssertionError();
-            }
-                
         }
-        
+        throw new IllegalStateException();
+    }
+    
+    public Coords setPlacementStrategy(RandomSpawnStrategy strategy){
+        return strategy.randomSpawnStrategy(this);
     }
 
     public Token peekToken(int col, int row){
@@ -68,7 +50,7 @@ public class Board {
         // } catch (Exception e) {
         //     throw new IllegalArgumentException();
         // }
-        return setPlacementStrategy(2);
+        return setPlacementStrategy();
     }
 
     

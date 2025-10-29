@@ -23,15 +23,15 @@ public class Game {
         player.assignToken(token);
     }
     public void start(){
-        Scanner klawiatura = new Scanner(System.in);
-        PlayerToken.Move ruch;
+        Scanner input = new Scanner(System.in);
+        PlayerToken.Move move;
         do { 
             board.display();
             System.out.println("Ilosc zlota: "+player.gold());
             System.out.println("");
-            ruch =  PlayerToken.Move.valueOf(klawiatura.nextLine().toUpperCase());
-            player.getPlayerToken().move(ruch);
-        } while (ruch != PlayerToken.Move.NONE);
-        klawiatura.close();
+            move =  PlayerToken.Move.valueOf(input.nextLine().toUpperCase());
+            player.getPlayerToken().move(move);
+        } while (move != PlayerToken.Move.NONE);
+        input.close();
     }
 }

@@ -78,12 +78,12 @@ class BoardTest {
         int n = board.size() * board.size();
         Token token = new GoldToken();
         for (int i=0; i<n; i++) {
-            Board.Coords c = board.setPlacementStrategy(1);
+            Board.Coords c = board.setPlacementStrategy();
             board.placeToken(c.col(), c.row(), token);
         }
         Assertions.assertThrows(
                 IllegalStateException.class,
-                () -> board.setPlacementStrategy(1));
+                () -> board.setPlacementStrategy());
     }
 
     //=======Mój Test========
@@ -91,10 +91,10 @@ class BoardTest {
     void does_random_placement_strategy_work(){
         Board board = new Board();
         Token token = new PlayerToken(player, board);
-        Board.Coords c1 = board.setPlacementStrategy(1);
+        Board.Coords c1 = board.setPlacementStrategy();
         Assertions.assertTrue(board.peekToken(c1.col(), c1.row()) instanceof EmptyToken);
         board.placeToken(c1.col(), c1.row(), token);
-        Board.Coords c2 = board.setPlacementStrategy(1);
+        Board.Coords c2 = board.setPlacementStrategy();
         Assertions.assertNotEquals(c1, c2);
     }
 
