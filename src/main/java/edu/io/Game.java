@@ -12,9 +12,7 @@ public class Game {
 
     public Game(){
         this.board = new Board();
-        //złoto jest poprawnie zbierane
         board.placeToken(4, 4, new GoldToken());
-        //piryt pomyślnie imituje złoto i nie dodaje wartości
         board.placeToken(2, 5, new PyriteToken());
     }
     public void join(Player player){

@@ -11,8 +11,6 @@ public class RandomSpawnStrategy implements PlacementStrategy{
             randomCol = (int)(Math.random() * board.size());
             randomRow = (int)(Math.random() * board.size());
             tries++;
-            //Przetestowane przy całej planszy złota throwuje error
-            //jeśli do tego czasu nie znajdzie miejsca jest dobra szansa że plansza jest pełna więc przechodzi do metody szukającej pierwszego wolnego
             if(tries > Math.pow(board.size(), 2)){
                 return board.setPlacementStrategy();
             }

@@ -35,21 +35,6 @@ public class Board {
     }
 
     public Coords getAvailableSquare(){
-        // W programie normalnie użyłbym tego ale testy nie przejdą w takiej konfiguracji więc zostawiam jako komentarz
-        
-        // System.out.println("Select Spawn Strategy(1-2):");
-        // System.out.println("1 - Random Spawn");
-        // System.out.println("2 - First Free Space");
-        // System.out.println("Your Choice: ");
-        // try {
-        //     Scanner klawiatura = new Scanner(System.in);
-        //     int placementStrategy = klawiatura.nextInt();
-        //     klawiatura.close();
-        //     if(placementStrategy > 2 || placementStrategy < 1) throw new IllegalArgumentException("No SpawnStrategy of this index");
-        //     return setPlacementStrategy(placementStrategy);
-        // } catch (Exception e) {
-        //     throw new IllegalArgumentException();
-        // }
         return setPlacementStrategy();
     }
 
