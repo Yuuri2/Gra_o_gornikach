@@ -2,19 +2,49 @@ package edu.io;
 
 import java.util.Scanner;
 
+import edu.io.player.NoTool;
+import edu.io.player.Player;
+import edu.io.strategy.RandomSpawnStrategy;
+import edu.io.token.AnvilToken;
 import edu.io.token.GoldToken;
+import edu.io.token.PickaxeToken;
 import edu.io.token.PlayerToken;
 import edu.io.token.PyriteToken;
+import edu.io.token.SluiceBoxToken;
 
 public class Game {
     private final Board board;
     private Player player;
 
     public Game(){
+        //Przykładowa inicjalizacja gry
         this.board = new Board();
-        board.placeToken(4, 4, new GoldToken());
-        board.placeToken(2, 5, new PyriteToken());
+        Board.Coords freeSpace;
+        GoldToken gold = new GoldToken();
+        PyriteToken pyrite = new PyriteToken();
+        PickaxeToken pickaxe = new PickaxeToken();
+        AnvilToken anvil = new AnvilToken();
+        SluiceBoxToken sluiceBox = new SluiceBoxToken();
+
+        for(int goldOre = 0; goldOre < 4; goldOre++){
+            freeSpace = board.getAvailableSquare(new RandomSpawnStrategy());
+            if(goldOre == 1) board.placeToken(freeSpace.col(), freeSpace.row(), new GoldToken(5));
+            else board.placeToken(freeSpace.col(), freeSpace.row(), gold);
+        }
+        for(int pyriteOre = 0; pyriteOre < 2; pyriteOre++){
+            freeSpace = board.getAvailableSquare(new RandomSpawnStrategy());
+            board.placeToken(freeSpace.col(), freeSpace.row(), pyrite);
+        }
+        freeSpace = board.getAvailableSquare(new RandomSpawnStrategy());
+        board.placeToken(freeSpace.col(), freeSpace.row(), pickaxe);
+
+        freeSpace = board.getAvailableSquare(new RandomSpawnStrategy());
+        board.placeToken(freeSpace.col(), freeSpace.row(), anvil);
+
+        freeSpace = board.getAvailableSquare(new RandomSpawnStrategy());
+        board.placeToken(freeSpace.col(), freeSpace.row(), sluiceBox);
     }
+
     public void join(Player player){
         this.player = player;
         PlayerToken token = new PlayerToken(player, board);
@@ -25,10 +55,14 @@ public class Game {
         PlayerToken.Move move;
         do { 
             board.display();
-            System.out.println("Ilosc zlota: "+player.gold());
+            System.out.println("Gold pices: "+player.gold.amount());
             System.out.println("");
+            if(!(player.getPlayerShed().getTool() instanceof NoTool)){
+                System.out.println("Name: "+player.getToolToken()+" Durability: "+player.getToolToken().durability());
+                System.out.println("");
+            }
             move =  PlayerToken.Move.valueOf(input.nextLine().toUpperCase());
-            player.getPlayerToken().move(move);
+            player.token().move(move);
         } while (move != PlayerToken.Move.NONE);
         input.close();
     }

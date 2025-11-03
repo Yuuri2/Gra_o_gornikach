@@ -1,7 +1,7 @@
 package edu.io.token;
 
 import edu.io.Board;
-import edu.io.Player;
+import edu.io.player.Player;
 
 public class PlayerToken extends Token{
     private int col, row;
@@ -16,13 +16,16 @@ public class PlayerToken extends Token{
         DOWN
     }
 
+    //metody
     public PlayerToken(Player player, Board board){
         super(Label.PLAYER_TOKEN_LABEL);
         this.board = board;
         this.player = player;
+
         Board.Coords freeSpace= board.getAvailableSquare();
         col = freeSpace.col();
         row = freeSpace.row();
+
         board.placeToken(col, row, this);
     }
     public void move(Move dir){

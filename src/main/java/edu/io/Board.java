@@ -4,18 +4,22 @@ import edu.io.strategy.PlacementStrategy;
 import edu.io.token.EmptyToken;
 import edu.io.token.Token;
 
-public class Board {
-    private final int size = 8;
+public final class Board {
+    private int size;
     public Token[][] grid;
     
+    //konstruktory
     public Board(){
+        size = 8;
         grid = new Token[size][size];
-        this.clean();
+        clean();
+    }
+    public Board(int size){
+        this();
+        this.size = size;
     }
 
-    public int size(){
-        return this.size;
-    }
+    //Metody
     //bazaowo pierwsze wolne
     public Coords setPlacementStrategy(){
         for(int col = 0; col < size;col++){
@@ -25,20 +29,18 @@ public class Board {
         }
         throw new IllegalStateException();
     }
-    //przeciążone z argumentem - losowe wolne
-    public Coords setPlacementStrategy(PlacementStrategy strategy){
-        return strategy.getStrategy(this);
-    }
-
-    public Token peekToken(int col, int row){
-        return grid[col][row];
-    }
-
     public Coords getAvailableSquare(){
         return setPlacementStrategy();
     }
 
-    
+    //metoda przeciażona - umożliwia ustawienie dowolnej strategii
+    public Coords setPlacementStrategy(PlacementStrategy strategy){
+        return strategy.getStrategy(this);
+    }
+    public Coords getAvailableSquare(PlacementStrategy strategy){
+        return setPlacementStrategy(strategy);
+    }
+
     public void clean(){
         Token freeSpace = new EmptyToken();
         for(int col = 0; col < size;col++){
@@ -46,9 +48,6 @@ public class Board {
                 grid[col][row] = freeSpace;
             }
         }
-    }
-    public void placeToken(int col, int row, Token token){
-        grid[col][row] = token;
     }
 
     public void display(){
@@ -61,4 +60,17 @@ public class Board {
     }
 
     public record Coords(int col, int row){}
+
+    //gettery i settery
+    public int size(){
+        return this.size;
+    }
+
+    public Token peekToken(int col, int row){
+        return grid[col][row];
+    }
+
+    public void placeToken(int col, int row, Token token){
+        grid[col][row] = token;
+    }
 }

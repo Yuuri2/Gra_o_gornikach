@@ -8,6 +8,6 @@ public abstract class Token {
     }
 
     public String label(){
-        return this.label;
+        return label;
     }
 }
