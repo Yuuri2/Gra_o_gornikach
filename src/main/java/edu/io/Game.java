@@ -49,20 +49,29 @@ public class Game {
         this.player = player;
         PlayerToken token = new PlayerToken(player, board);
         player.assignToken(token);
+        player.vitals.setOnDeathHandler(() -> {
+            System.out.println("Player died of thirst");
+        });
     }
     public void start(){
         Scanner input = new Scanner(System.in);
         PlayerToken.Move move;
         do { 
             board.display();
-            System.out.println("Gold pices: "+player.gold.amount());
+            System.out.println("Gold pices: " + player.gold.amount());
+            System.out.println("Hydration level: " + player.vitals.hydration() + "%");
             System.out.println("");
             if(!(player.getPlayerShed().getTool() instanceof NoTool)){
-                System.out.println("Name: "+player.getToolToken()+" Durability: "+player.getToolToken().durability());
+                System.out.println("Name: " + player.getToolToken() + " Durability: " + player.getToolToken().durability());
                 System.out.println("");
             }
             move =  PlayerToken.Move.valueOf(input.nextLine().toUpperCase());
-            player.token().move(move);
+            try {
+                player.token().move(move);
+            } catch (IllegalStateException e) {
+                System.out.println("Player is dead [*]");
+            }
+            
         } while (move != PlayerToken.Move.NONE);
         input.close();
     }

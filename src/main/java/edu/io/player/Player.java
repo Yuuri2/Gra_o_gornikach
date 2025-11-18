@@ -7,20 +7,24 @@ import edu.io.token.PickaxeToken;
 import edu.io.token.PlayerToken;
 import edu.io.token.SluiceBoxToken;
 import edu.io.token.Token;
+import edu.io.token.WaterToken;
 
 public class Player{
 
     private PlayerToken token;
     public final Gold gold = new Gold();
+    public final Vitals vitals = new Vitals();
+
     //shed umieściłem w playerze, bo każdy gracz będzie miał swoją prywatną szopę
     private final Shed shed = new Shed();
 
+
     public void interactWithToken(Token token){
+        if(!vitals.isAlive()) throw new IllegalStateException("Player is dead");
         switch (token) {
             case GoldToken goldToken ->{
-                //Zwiększyłem nieco funkcjonalność metody o sluiceBoxa więc zmienił bym nazwę
-                //na useToolOnGold, ale tak było w treści zadania to zostawiam na razie
                 usePickaxeOnGold(goldToken);
+                vitals.dehydrate(VitalsValues.DEHYDRATION_GOLD);
             }
             case PickaxeToken pickaxe ->{
                 shed.add(pickaxe);
@@ -29,10 +33,14 @@ public class Player{
                 shed.add(sluiceBox);
             }
             case AnvilToken anvil->{
+                vitals.dehydrate(VitalsValues.DEHYDRATION_ANVIL);
                 if(shed.getTool() instanceof Repairable tool) tool.repair();
             }
+            case WaterToken water ->{
+                vitals.hydrate(water.amount());
+            }
             case EmptyToken freeToken ->{
-                break;
+                vitals.dehydrate(VitalsValues.DEHYDRATION_MOVE);
             }
             default ->{
                 System.out.println("Token not recognised");
@@ -51,8 +59,6 @@ public class Player{
                 gold.gain(amount);
                 shed.dropTool();
             });
-            //nie mam tu ifIdle bo to by zakładało że jestem nie jestem na złocie
-            //a wiem że jestem
         }
         else gold.gain(amount);
     }

@@ -1,10 +1,9 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import edu.io.player.Player;
 import edu.io.token.EmptyToken;
 import edu.io.token.GoldToken;
 import edu.io.token.PickaxeToken;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class PickaxeTest {
 

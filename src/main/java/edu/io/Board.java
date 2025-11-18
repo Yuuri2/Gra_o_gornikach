@@ -1,5 +1,7 @@
 package edu.io;
 
+import java.util.Objects;
+
 import edu.io.strategy.PlacementStrategy;
 import edu.io.token.EmptyToken;
 import edu.io.token.Token;
@@ -71,6 +73,8 @@ public final class Board {
     }
 
     public void placeToken(int col, int row, Token token){
+        //if(token == null) throw new NullPointerException("Token cannot be null");
+        Objects.requireNonNull(token, "Token cannot be null");
         grid[col][row] = token;
     }
 }

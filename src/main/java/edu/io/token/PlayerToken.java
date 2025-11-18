@@ -1,5 +1,7 @@
 package edu.io.token;
 
+import java.util.Objects;
+
 import edu.io.Board;
 import edu.io.player.Player;
 
@@ -19,6 +21,8 @@ public class PlayerToken extends Token{
     //metody
     public PlayerToken(Player player, Board board){
         super(Label.PLAYER_TOKEN_LABEL);
+        Objects.requireNonNull(player, "player cannot be null");
+        Objects.requireNonNull(board, "board cannot be null");
         this.board = board;
         this.player = player;
 
@@ -29,7 +33,7 @@ public class PlayerToken extends Token{
         board.placeToken(col, row, this);
     }
     public void move(Move dir){
-        if(dir == null) return;
+        Objects.requireNonNull(dir, "dir cannot be null");
         board.placeToken(col, row, new EmptyToken());
         if(isMoveLegal(dir)){
             switch (dir) {
